@@ -1,39 +1,63 @@
-let input = document.querySelector('input');
-let rootElm = document.querySelector('ul');
+let input = document.querySelector(`input[type="text"]`);
+let rootElm = document.querySelector('.movies_list');
 
 let allMovies = [
   {
-    name: 'Inception',
+    name: 'Forest Gump',
     watched: false,
   },
   {
-    name: 'Mad Max',
-    watched: false,
+    name: 'Inception',
+    watches: true,
   },
 ];
 
 input.addEventListener('keyup', (event) => {
-  if (event.key === 'Enter') {
-    let movie = {
+  if (event.keyCode === 13) {
+    allMovies.push({
       name: event.target.value,
       watched: false,
-    };
-    allMovies.push(movie);
+    });
     event.target.value = '';
+    createMovieUI(allMovies, rootElm);
   }
-  createUI(allMovies, rootElm);
 });
-function handleClick(event) {
-  let idx = event.target.idx;
-  allMovies[idx].watched = !allMovies[idx].watched;
-  createUI(allMovies, rootElm);
+
+function handleChange(event) {
+  let id = event.target.id;
+
+  allMovies[id].watched = !allMovies[id].watched;
+  createMovieUI(allMovies, rootElm);
 }
 
-function elm(type, attr = {}, ...children) {
+function createMovieUI(data, root) {
+  root.innerHTML = '';
+  data.forEach((movie, i) => {
+    let li = createElement(
+      'li',
+      null,
+      createElement('label', { for: i }, movie.name),
+      createElement(
+        'button',
+        { id: i, onClick: handleChange },
+        movie.watched ? 'Watched' : 'To Watch'
+      )
+    );
+
+    rootElm.append(li);
+  });
+}
+
+createMovieUI(allMovies, rootElm);
+
+function createElement(type, attr = {}, ...children) {
   let element = document.createElement(type);
   for (let key in attr) {
     if (key.startsWith('data-')) {
       element.setAttribute(key, attr[key]);
+    } else if (key.startsWith('on')) {
+      let eventType = key.replace('on', '').toLowerCase();
+      element.addEventListener(eventType, attr[key]);
     } else {
       element[key] = attr[key];
     }
@@ -49,20 +73,3 @@ function elm(type, attr = {}, ...children) {
   });
   return element;
 }
-function createUI(movies, root) {
-  rootElm.innerHTML = '';
-  movies.forEach((movie, id) => {
-    let li = ele(
-      li,
-      { className: 'movie-list-item' },
-      ele(span, {}, movie.name),
-      ele(
-        button,
-        { className: 'btn', id: id, onclick: handleClick },
-        movie.watched ? 'Watched' : 'To Watch'
-      )
-    );
-    root.append(li);
-  });
-}
-createUI(allMovies, rootElm);
