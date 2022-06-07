@@ -68,7 +68,7 @@
           //     )
           //   );
           return (
-            <li className={'movie-list-item'}>
+            <li key={movie.name} className={'movie-list-item'}>
               <span>{movie.name}</span>
               <button className={'btn'} id={id} onClick={handleClick}>
                 {movie.watched ? 'Watched' : 'To Watch'}
