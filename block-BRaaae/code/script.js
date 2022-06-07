@@ -1,7 +1,16 @@
 let input = document.querySelector('input');
 let rootElm = document.querySelector('ul');
 
-let allMovies = [];
+let allMovies = [
+  {
+    name: 'Forest Gump',
+    watched: false,
+  },
+  {
+    name: 'Inception',
+    watched: true,
+  },
+];
 
 input.addEventListener('keyup', (event) => {
   if (event.key === 'Enter') {
