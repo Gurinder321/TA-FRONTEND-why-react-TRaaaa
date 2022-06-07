@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Movie Watch List</h1>
+      <input type="text" name="" id="" placeholder="Enter the movie name" />
+      <ul class="movies_list"></ul>
+    </div>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      let input = document.querySelector('input');
+      let rootElm = document.querySelector('ul');
+
+      let allMovies = [
+        {
+          name: 'Forest Gump',
+          watched: false,
+        },
+        {
+          name: 'Inception',
+          watched: true,
+        },
+      ];
+
+      input.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+          let movie = {
+            name: event.target.value,
+            watched: false,
+          };
+          allMovies.push(movie);
+          event.target.value = '';
+        }
+        createUI(allMovies, rootElm);
+      });
+
+      function handleClick(event) {
+        let id = event.target.id;
+        allMovies[id].watched = !allMovies[id].watched;
+        createUI(allMovies, rootElm);
+      }
+
+      let elm = React.createElement;
+
+      function createUI(movies, root) {
+        let movieList = movies.map((movie, id) => {
+          //   let li = elm(
+          //     'li',
+          //     {
+          //       className: 'movie-list-item',
+          //     },
+          //     elm('span', {}, movie.name),
+          //     elm(
+          //       'button',
+          //       {
+          //         className: 'btn',
+          //         id: id,
+          //         onClick: handleClick,
+          //       },
+          //       movie.watched ? 'Watched' : 'To Watch'
+          //     )
+          //   );
+          return (
+            <li key={movie.name} className={'movie-list-item'}>
+              <span>{movie.name}</span>
+              <button className={'btn'} id={id} onClick={handleClick}>
+                {movie.watched ? 'Watched' : 'To Watch'}
+              </button>
+            </li>
+          );
+        });
+        ReactDOM.render(movieList, root);
+      }
+
+      createUI(allMovies, rootElm);
+    </script>
+  </body>
+</html>
