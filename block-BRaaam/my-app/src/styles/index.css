@@ -1,0 +1,14 @@
+body {
+  font-size: 16px;
+}
+ul {
+  list-style: none;
+  display: flex;
+}
+
+li {
+  padding-right: 10px;
+}
+img {
+  width: 300px;
+}
