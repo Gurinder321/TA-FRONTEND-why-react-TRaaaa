@@ -1,4 +1,10 @@
 import data from '../data.json';
+import PropTypes from 'prop-types';
+
+function handleClick(author) {
+  alert(`Hello ${author}, how are you?`);
+}
+
 function Articles() {
   return (
     <div className="container">
@@ -19,10 +25,21 @@ function Article(props) {
         <h3>Title: {props.title}</h3>
         <p>{props.description}</p>
       </div>
-      <button>
+      <button onClick={() => handleClick(props.author)}>
         <a href={props.url}>Read More!</a>
       </button>
     </div>
   );
 }
+
+Article.propTypes = {
+  author: PropTypes.string,
+  content: PropTypes.string,
+  discription: PropTypes.string,
+  publishedAt: PropTypes.string,
+  title: PropTypes.string,
+  url: PropTypes.string,
+  urlToImage: PropTypes.string,
+};
+
 export default Articles;
